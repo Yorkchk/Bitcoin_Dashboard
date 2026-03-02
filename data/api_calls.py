@@ -13,7 +13,6 @@ class APICalls:
             "api_key": settings.api_key
         }
 
-    #   'https://bitcoin-full-stackv3.graymushroom-f6c082ac.canadaeast.azurecontainerapps.io/get_historyChart?key_name=testv3&api_key=d2c4a40895b0481fa2ffeb478f981d59&start_date=2026-01-01&end_date=2026-01-05&limit=100' 
     def get_historyChart(self, start_date=None, end_date=None, limit=None):
         url = f"{self.base_url}/get_historyChart"
         params = {
@@ -25,6 +24,38 @@ class APICalls:
         response = self.session.get(url, params=params)
         return pd.DataFrame(response.json())
     
-api_call1 = APICalls()
-df = api_call1.get_historyChart(start_date="2026-01-01", end_date="2026-01-05", limit=100)
-print(df.head())
+    def get_liveChart(self, start_time=None, end_time=None, limit=None):
+        url = f"{self.base_url}/get_liveChart"
+        params = {
+            **self.auth_params,
+            "start_time": start_time,
+            "end_time": end_time,
+            "limit": limit
+        }
+        response = self.session.get(url, params=params)
+        return pd.DataFrame(response.json())
+    
+
+    def get_historyOhlc(self, start_date=None, end_date=None, limit=None):
+        url = f"{self.base_url}/get_historyOhlc"
+        params = {
+            **self.auth_params,
+            "start_date": start_date,
+            "end_date": end_date,
+            "limit": limit
+        }
+        response = self.session.get(url, params=params)
+        return pd.DataFrame(response.json())
+
+    def get_liveOhlc(self, start_time=None, end_time=None, limit=None):
+        url = f"{self.base_url}/get_liveOhlc"
+        params = {
+            **self.auth_params,
+            "start_time": start_time,
+            "end_time": end_time,
+            "limit": limit
+        }
+        response = self.session.get(url, params=params)
+        return pd.DataFrame(response.json())
+    
+# 
