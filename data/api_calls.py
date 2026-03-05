@@ -1,4 +1,4 @@
-from Settings import settings
+from .Settings import settings
 import requests
 import pandas as pd
 
@@ -22,8 +22,10 @@ class APICalls:
             "limit": limit
         }
         response = self.session.get(url, params=params)
-        return pd.DataFrame(response.json())
-    
+        print("response: ", response)
+        df = pd.DataFrame(response.json())
+        return df
+
     def get_liveChart(self, start_time=None, end_time=None, limit=None):
         url = f"{self.base_url}/get_liveChart"
         params = {
@@ -45,7 +47,9 @@ class APICalls:
             "limit": limit
         }
         response = self.session.get(url, params=params)
-        return pd.DataFrame(response.json())
+        df = pd.DataFrame(response.json())
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        return df
 
     def get_liveOhlc(self, start_time=None, end_time=None, limit=None):
         url = f"{self.base_url}/get_liveOhlc"
@@ -58,4 +62,3 @@ class APICalls:
         response = self.session.get(url, params=params)
         return pd.DataFrame(response.json())
     
-# 
